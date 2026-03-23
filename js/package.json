@@ -1,0 +1,20 @@
+{
+  "name": "@coseeing/nemeth2latex",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "files": [
+    "src",
+    "data"
+  ],
+  "scripts": {
+    "build-data": "node scripts/build-data.js",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "vitest": "^3.0.0"
+  }
+}
