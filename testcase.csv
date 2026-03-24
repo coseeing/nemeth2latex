@@ -44,4 +44,4 @@ id,input-braille,expected-latex
 43,⠆⠀⠨⠂⠀⠂,2>1
 44,⠆⠨⠂⠂,2.11
 45,⠫⠞⠠⠁⠠⠃⠠⠉,\triangle ABC
-46,⠁⠀⠐⠅⠱⠀⠭⠀⠐⠅⠱⠀⠃,a\leq x\leq b
+46,⠁⠀⠐⠅⠱⠀⠭⠀⠐⠅⠱⠀⠃,a \leq  x \leq  b
