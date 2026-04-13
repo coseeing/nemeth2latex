@@ -1,5 +1,5 @@
 import { createScanner } from './lexer.js';
-import { createParser } from './parser.js';
+import { createNemethParser } from './parser/nemeth-parser.js';
 import { createTransformer } from './transformer.js';
 
 import symbolData from '../data/symbol.js';
@@ -7,6 +7,7 @@ import letterData from '../data/letter.js';
 import numberData from '../data/number.js';
 
 const scanner = createScanner(symbolData, letterData, numberData);
+const parser = createNemethParser(scanner);
 const transformer = createTransformer(symbolData, letterData, numberData);
 
 /**
@@ -16,6 +17,6 @@ const transformer = createTransformer(symbolData, letterData, numberData);
  * @returns {string} The corresponding LaTeX string
  */
 export function translate(nemethString) {
-  const tree = createParser(scanner).parse(nemethString);
+  const tree = parser.parse(nemethString);
   return transformer.transform(tree).trim();
 }
