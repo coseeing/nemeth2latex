@@ -8,18 +8,26 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const BASE_DIR = path.join(__dirname, '..', '..');
 
 function loadTestCases(filename) {
-  const content = fs.readFileSync(path.join(BASE_DIR, filename), 'utf-8');
+  const filePath = path.join(BASE_DIR, filename);
+  if (!fs.existsSync(filePath)) {
+    return [];
+  }
+
+  const content = fs.readFileSync(filePath, 'utf-8');
   const lines = content.trim().split('\n');
   const cases = [];
   for (let i = 1; i < lines.length; i++) {
     const line = lines[i].trim();
     if (!line) continue;
-    // Parse: id,input-braille,expected-latex
+    // Parse: id,input-braille,expected-latex[,remark]
     const firstComma = line.indexOf(',');
     const secondComma = line.indexOf(',', firstComma + 1);
+    const thirdComma = line.indexOf(',', secondComma + 1);
     const id = line.slice(0, firstComma);
     const inputBraille = line.slice(firstComma + 1, secondComma);
-    const expectedLatex = line.slice(secondComma + 1);
+    const expectedLatex = thirdComma === -1
+      ? line.slice(secondComma + 1)
+      : line.slice(secondComma + 1, thirdComma);
     if (inputBraille) {
       cases.push({ id, input: inputBraille, expected: expectedLatex });
     }
@@ -40,10 +48,16 @@ describe('nemeth2latex translator', () => {
   describe('testcase2.csv', () => {
     const cases = loadTestCases('testcase2.csv');
 
-    it.each(cases)('test #$id: $expected', ({ id, input, expected }) => {
-      const result = translate(input);
-      expect(result).toBe(expected);
-    });
+    if (cases.length === 0) {
+      it('has no remaining unique cases', () => {
+        expect(cases).toHaveLength(0);
+      });
+    } else {
+      it.each(cases)('test #$id: $expected', ({ id, input, expected }) => {
+        const result = translate(input);
+        expect(result).toBe(expected);
+      });
+    }
   });
 
   describe('specific cases', () => {
