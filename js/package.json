@@ -1,6 +1,6 @@
 {
   "name": "@coseeing/nemeth2latex",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Nemeth Braille to LaTeX converter",
   "type": "module",
   "main": "./src/index.js",
